@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>My first jsPsych experiment</title>
+    <!-- import jsPsych -->
+    <script src="https://unpkg.com/jspsych@7.0.0"></script>
+
+    <!-- import  the jsPsych styling file -->
+    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@1.0.0" type="text/javascript"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.1"></script>
+
+  </head>
+  
+  <body>
+
+    <!-- jsPsych code goes here -->
+    <script type="text/javascript">
+
+      // initialize jsPsych
+      var jsPsych = initJsPsych();
+
+      // setup a timeline object 
+      var timeline = [];
+
+
+// instructions to experiment
+      var instructionsTrial = {
+        type: jsPsychInstructions,
+        pages: [
+          'Welcome to the experiment. Click next to begin.',
+
+          'In this activity, you will be playing different maze games. There are no right or wrong answers, we just want to know what you think.'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+      timeline.push(instructionsTrial)
+
+// consent
+
+var consent = {
+  type: jsPsychHtmlButtonResponse,
+    stimulus: "<p>Do you want to play?</p>",
+  choices: ['no', 'yes']
+
+};
+
+      timeline.push(consent)
+
+// mazes NEED TO FIGURE OUT HOW TO GET PYTHON SCRIPT RUNNING
+
+      var maze1 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 1 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }      
+
+       var maze2 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 2 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+       var maze3 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 3 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      } 
+
+
+      var maze4 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 4 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      } 
+
+
+     var maze5 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 5 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }       
+
+       var maze6 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 6 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+
+      var maze7 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 7 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+             var maze8 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 8 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+       var maze9 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 9 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+             var maze10 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 10 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+
+
+
+
+
+      var trainingInstructions = {
+        type: jsPsychInstructions,
+        pages: [
+          'In this activity, I’ll be asking you to navigate through a maze by pressing buttons. The up keyboard button makes you go up, the left keyboard button makes you go left, the right keyboard button makes you go right, and the down keyboard button makes you go down. Let’s practice before we get started. '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+            timeline.push(trainingInstructions)
+
+// picking up 
+
+            var playTrain = {
+        type: jsPsychInstructions,
+        pages: [
+          'The goal of this game is to get to the red ball. Can you go to the red ball? ',
+          'The goal of this game is to get to the blue ball. Can you go to the blue ball?'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+
+            timeline.push(playTrain)
+
+            var playMazeHardFirst = {
+        type: jsPsychInstructions,
+        pages: [
+          'You will first play the hardest level. The goal of this game is to get to the treasure chest. Can you go to the treasure chest?'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+
+    
+
+var likertTrial = {
+  type: jsPsychSurveyLikert,
+  questions: [
+    {
+      prompt: "How difficult was this level?", 
+      labels: [
+        "Extremely easy", 
+        "Easy", 
+        "Neutral", 
+        "Difficult", 
+        "Extremely difficult"
+      ]
+    }
+  ]
+};
+
+
+
+
+    var afterHardLevelFirst = {
+        type: jsPsychInstructions,
+        pages: [
+          'That was the hardest level, but with practice, you can learn how to play it. '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+    
+
+      var hardMazeIntro = {
+        timeline: [playMazeHardFirst, maze1, likertTrial, afterHardLevelFirst]
+      }
+
+      timeline.push(hardMazeIntro)
+
+
+    var nextEasyLevel = {
+        type: jsPsychInstructions,
+        pages: [
+          'Let’s try the easiest level this time. The goal of this game is to get to the treasure chest. Can you go to the treasure chest?'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+var easyMazeIntro = {
+  timeline: [nextEasyLevel, likertTrial]
+}
+
+timeline.push(easyMazeIntro)
+
+
+    var nextMazeInstructions = {
+        type: jsPsychInstructions,
+        pages: [
+          'Okay, let’s play another level. The goal of this game is to get to the treasure chest. Can you go to the treasure chest?'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+
+      // CONDITIONS
+
+    var handCurrInOrderProcedure = {
+    timeline: [nextMazeInstructions, maze2, likertTrial, maze3,likertTrial, maze4,likertTrial, maze5,likertTrial, maze6,likertTrial, maze7, likertTrial, maze8, likertTrial, maze9, likertTrial, maze10]
+    }
+
+
+    var handCurrSkipProcedure = {
+    timeline: [nextMazeInstructions, maze2, likertTrial, maze4,likertTrial, maze6,likertTrial, maze8, likertTrial, maze10]
+    }
+
+var myArray = [maze1,maze2,maze3,maze4,maze5,maze6,maze7,maze8,maze9,maze10];
+var shuffledArray = jsPsych.randomization.repeat(myArray, 1);
+
+    var randomCurrProcedure = {
+    timeline: [nextMazeInstructions, shuffledArray[0], likertTrial, shuffledArray[1],likertTrial, shuffledArray[2],likertTrial, shuffledArray[3], likertTrial, shuffledArray[4],likertTrial, shuffledArray[5],likertTrial, shuffledArray[6],likertTrial, shuffledArray[7], likertTrial, shuffledArray[8], likertTrial, shuffledArray[9]]
+    }
+
+
+
+
+    //automated
+
+//var roomOrder=["Maze with more rooms", "Maze with less rooms", "The same maze I just played", "The hardest paze"];
+
+//var shuffleRoomChoice=jsPsych.randomization.repeat(roomOrder, 1);
+
+    // state n+1
+
+    var roomTypeResponse = {
+  type: jsPsychHtmlButtonResponse,
+    stimulus: "<p>What maze do you want to play next?</p>",
+  choices: ["A maze with 1 more room", "A maze with 1 less room", "The same maze I just played", "The hardest maze with 10 rooms"]
+
+};
+
+var automatedResponse = {
+  type: jsPsychSurveyText,
+  questions: [
+    {prompt: 'Why did you choose that maze?'}
+  ]
+}
+
+// need to figure out if else statement
+
+
+
+var aclProcedure = {
+  timeline: [roomTypeResponse,automatedResponse,nextMazeInstructions]
+}
+
+timeline.push(aclProcedure)
+
+
+
+timeline.push(randomCurrProcedure)
+
+
+
+      timeline.push(handCurrInOrderProcedure)
+
+
+    var end = {
+        type: jsPsychInstructions,
+        pages: [
+          'Thanks for playing this game. Click end to end game'
+        ],
+        button_label_next: "End",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+          timeline.push(end)
+
+var jsPsych = initJsPsych({
+    on_finish: function() {
+        jsPsych.data.displayData('csv');
+    }
+})
+      // run the experiment
+      jsPsych.run(timeline);
+
+    </script>
+  </body>
+
+</html>
