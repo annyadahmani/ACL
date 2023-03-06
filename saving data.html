@@ -1,0 +1,28 @@
+// Save data to CSV
+var save_data_csv = function(name, data){
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'php/save_data.php'); //perhaps change file path when you reorder the files
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({filename: name, filedata: data}));
+};
+
+var save_data = {
+    type: jsPsychCallFunction,
+    func: function(){ 
+        // save_data_csv(subject_id + '_output', jsPsych.data.get().csv());
+        save_data_csv('_output', jsPsych.data.get().csv());
+    },
+    timing_post_trial: 0
+};   
+
+//Final trial
+var final_trial = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: `
+                <p>You've finished the last trial. Thanks for participating!</p>
+                <p><a href="https://app.prolific.co/submissions/complete?cc=C12O10GU">Click here to return to Prolific and complete the study</a>.</p>`,
+            choices: "NO_KEYS",
+            on_start: function(data) {
+                 jsPsych.data.get().localSave("csv","data/test.csv")
+            }
+        }
