@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>My first jsPsych experiment</title>
+    <!-- import jsPsych -->
+    <script src="https://unpkg.com/jspsych@7.0.0"></script>
+
+    <!-- import  the jsPsych styling file -->
+    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.0.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@1.0.0" type="text/javascript"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.1"></script>
+
+  </head>
+  
+  <body>
+
+      <!-- jsPsych code goes here -->
+    <script type="text/javascript">
+
+      // initialize jsPsych
+      var jsPsych = initJsPsych();
+
+      // setup a timeline object 
+      var timeline = [];
+
+
+// instructions to experiment
+      var instructionsTrial = {
+        type: jsPsychInstructions,
+        pages: [
+          'Welcome to the experiment. Click next to begin.',
+
+          'In this activity, you will be playing different maze games. There are no right or wrong answers, we just want to know what you think.'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+      timeline.push(instructionsTrial)
+
+// consent
+
+
+      var consent_stimuli = [
+            {   
+                stimulus: `
+                <div style="width:800px; text-align: left;">
+                <p>
+                    <strong>Cognitive Development and Learning Lab</strong>
+                    <br>
+                    Department of Psychology
+                    <br>
+                    University of California, Berkeley
+                </p>
+                <p>
+                    Dear Participants,
+                </p>
+                <p>
+                    Thank you for your interest! In this study, you will:
+                </p>
+                <p>
+                    <strong>
+                        You will read short statements and be asked to rate the provided options.
+                    </strong>
+                </p>
+                <p>
+                    You are being asked to participate in a project being conducted by a research team at UC Berkeley, under the direction of Dr. Alison Gopnik. 
+                    We are interested in how people learn in games. A better understanding of commonsense reasoning has implications for building more intelligent machines  
+                    that can reason in a more human-like way. During this study, you will be get to navigate different virtual mazes. To understand your decision-making processes, you will be asked questions for why you made certain choices. 
+                </p>
+                <p>
+                    The study will last around 30 minutes. Your participation in this study is completely voluntary. You may refuse to participate, or you may choose to 
+                    withdraw from participation at any time, without penalty or loss of benefit to which you are otherwise entitled. There has been no harm to people involved 
+                    in this study and there are no risks associated with participation.
+                </p>
+                <p>
+                    All information collected from the study will be associated with a randomly generated Prolific code number or Prolific ID, which will be the only
+                    identifying data you will be requested to provide. Only researchers associated with this project will have access to the data. In order to make a research 
+                    transparent to the scientific and broader community our study design and unidentifiable data might be made publicly available on Open Science Framework, 
+                    a network of research materials and collaboration software, but your data will not be in anyway identifiable.
+                </p>
+                <p>
+                    We will also provide you with a demographic questionnaire. The form does not include any personal identifying information other than your Prolific ID. Your 
+                    contribution to this questionnaire is voluntary; if you choose to provide the requested information, your responses will be confidential. There are no costs
+                    associated with study participation. You will be reimbursed at a rate of at least $7 per hour on Prolific. Your online account will be credited directly.
+                </p>
+                <p>
+                    <strong>Rights</strong>
+                </p>
+                <p>
+                    Please understand that your participation in the research is voluntary and that you are free to withdraw your consent and discontinue participation in the research
+                    at any time. If you decide not to participate, there will be no penalty or loss of benefits to which you are otherwise entitled.
+                </p>
+                <p>
+                    <strong>Questions</strong>
+                </p>
+                <p>
+                    If you have any questions about the project, please feel free to contact the lab at 510-643-2172 or gopniklabmanager@berkeley.edu. You may also contact the supervisor
+                    of the study Prof. Alison Gopnik at 510-642-2752 or gopnik@berkeley.edu. If you have any question regarding your treatment or rights as a participant in this research 
+                    project, please contact the Committee for the Protection of Human Subjects at the University of California at Berkeley at 510-642-7461 or at subjects@berkeley.edu.
+                </p>
+                <p>
+                    <strong>Consent Statement</strong>
+                </p>
+                <p>
+                    If you agree to participate, please click the consent button below. Thank you very much for your time and consideration.
+                </p>
+                <p>
+                    By selecting the <strong>Consent</strong> button below, I acknowledge that I am 18 or older, have read this consent form, and I agree to take part in the object reasoning 
+                    study conducted by the research lab of Prof. Alison Gopnik.
+                </p>
+                <p>
+                    If you do NOT agree to participate in this study, please click the <strong>Decline</strong> button below.
+                </p>
+                <div>
+                `
+            }
+        ];
+
+        var consent = {
+            type: jsPsychHtmlButtonResponse,
+            stimulus: jsPsych.timelineVariable('stimulus'),
+            choices: ["Consent", "Decline"],
+            prompt: "<p><br></p>",
+            margin_vertical: "10px",
+            data: {
+                task: 'consent'
+            },
+            on_finish: function(data){
+                if (data.response == 1){
+                    jsPsych.endExperiment(`
+                        <p>
+                            You've declined to consent to our experiment. 
+                        </p>
+                        <p>
+                            If this was done in error, please consider re-loading the experiment page and consent to the experiment.
+                        </p>
+                        <p>
+                            Thank you for taking the time to consider our experiment.
+                        </p>
+                    `);
+                }
+            }
+        }
+
+
+var consent_procedure = {
+        timeline: [consent],
+        timeline_variables: consent_stimuli
+        }
+
+//timeline.push(consent_procedure);
+      
+//Demographic
+var demographic = {
+            type: jsPsychSurveyText,
+            questions:[
+                {prompt: 'What is your Prolific ID?', placeholder:'Enter ID', required: true},
+                {prompt: 'What is your date of birth?', placeholder:'Enter mm/dd/yyyy'},
+                {prompt: 'What is your biological sex?', placeholder:'Enter F or M'}
+            ]
+        }
+
+timeline.push(demographic);
+
+var consent = {
+  type: jsPsychHtmlButtonResponse,
+    stimulus: "<p>Do you want to play?</p>",
+  choices: ['no', 'yes']
+
+};
+
+      timeline.push(consent)
+
+
+      // mazes NEED TO FIGURE OUT HOW TO GET PYTHON SCRIPT RUNNING
+
+      var maze1 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 1 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }      
+
+       var maze2 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 2 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+       var maze3 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 3 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      } 
+
+
+      var maze4 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 4 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      } 
+
+
+     var maze5 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 5 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }       
+
+       var maze6 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 6 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+
+      var maze7 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 7 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+             var maze8 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 8 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+       var maze9 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 9 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+             var maze10 = {
+        type: jsPsychInstructions,
+        pages: [
+          'MAZE 10 '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }   
+
+
+
+
+
+
+      var trainingInstructions = {
+        type: jsPsychInstructions,
+        pages: [
+          'In this activity, I’ll be asking you to navigate through a maze by pressing buttons. The up keyboard button makes you go up, the left keyboard button makes you go left, the right keyboard button makes you go right, and the down keyboard button makes you go down. Let’s practice before we get started. '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+            timeline.push(trainingInstructions)
+
+// picking up 
+
+            var playTrain = {
+        type: jsPsychInstructions,
+        pages: [
+          'The goal of this game is to get to the red ball. Can you go to the red ball? ',
+          'The goal of this game is to get to the blue ball. Can you go to the blue ball?'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+
+            timeline.push(playTrain)
+
+            var playMazeHardFirst = {
+        type: jsPsychInstructions,
+        pages: [
+          'You will first play the hardest level. The goal of this game is to get to the treasure chest. Can you go to the treasure chest?'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+
+    
+
+var likertTrial = {
+  type: jsPsychSurveyLikert,
+  questions: [
+    {
+      prompt: "How difficult was this level?", 
+      labels: [
+        "Extremely easy", 
+        "Easy", 
+        "Neutral", 
+        "Difficult", 
+        "Extremely difficult"
+      ]
+    }
+  ]
+};
+
+
+
+
+    var afterHardLevelFirst = {
+        type: jsPsychInstructions,
+        pages: [
+          'That was the hardest level, but with practice, you can learn how to play it. '
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+    
+
+      var hardMazeIntro = {
+        timeline: [playMazeHardFirst, maze10, likertTrial, afterHardLevelFirst]
+      }
+
+      timeline.push(hardMazeIntro)
+
+
+    var nextEasyLevel = {
+        type: jsPsychInstructions,
+        pages: [
+          'Let’s try the easiest level this time. The goal of this game is to get to the treasure chest. Can you go to the treasure chest?'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+var easyMazeIntro = {
+  timeline: [nextEasyLevel, maze1, likertTrial]
+}
+
+timeline.push(easyMazeIntro)
+
+
+    var nextMazeInstructions = {
+        type: jsPsychInstructions,
+        pages: [
+          'Okay, let’s play another level. The goal of this game is to get to the treasure chest. Can you go to the treasure chest?'
+        ],
+        button_label_next: "Continue",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+
+      // CONDITIONS SKIP
+
+
+    var handCurrSkipProcedure = {
+    timeline: [nextMazeInstructions, maze2, likertTrial, maze4,likertTrial, maze6,likertTrial, maze8, likertTrial, maze10]
+    }
+
+      timeline.push(handCurrSkipProcedure)
+
+
+    var end = {
+        type: jsPsychInstructions,
+        pages: [
+          'Thanks for playing this game. Click end to end game'
+        ],
+        button_label_next: "End",
+        button_label_previous: "Go Back",
+        show_clickable_nav: true
+      }
+
+          timeline.push(end)
+
+var jsPsych = initJsPsych({
+    on_finish: function() {
+        jsPsych.data.displayData('csv');
+    }
+})
+      // run the experiment
+      jsPsych.run(timeline);
+
+    </script>
+  </body>
+
+</html>
